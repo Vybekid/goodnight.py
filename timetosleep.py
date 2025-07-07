@@ -2,124 +2,86 @@ import turtle
 
 # --- Setup the Screen and Turtle ---
 screen = turtle.Screen()
-screen.title("Krishna with an Arrow (Corrected)")
-screen.bgcolor("#E0FFFF") # A light cyan background
+screen.title("Hare Krishna Mantra Banner")
+screen.bgcolor("#87CEEB") # A nice sky blue background
 
 t = turtle.Turtle()
-t.speed(3) # Set drawing speed
-t.pensize(3) # Set the thickness of the line
+t.speed(5) # A slightly faster drawing speed
+t.hideturtle() # Hide the turtle arrow for a cleaner look
 
-# A helper function to move the turtle without drawing
+# --- Helper function to move without drawing ---
 def go_to(x, y):
     t.penup()
     t.goto(x, y)
     t.pendown()
 
-# --- Drawing Functions (Corrected) ---
+# --- Main Drawing Functions ---
 
-def draw_head_and_hair():
-    # This function was mostly okay
-    go_to(0, 0)
-    t.color("#6495ED") # Cornflower Blue for Krishna's skin
-    t.begin_fill()
-    t.circle(40)
-    t.end_fill()
-    
-    go_to(0, 80)
-    t.color("black")
-    t.begin_fill()
-    t.circle(20)
-    t.end_fill()
-
-def draw_peacock_feather():
-    # This function was also fine
-    go_to(15, 95)
-    t.setheading(120)
-    t.color("green")
-    t.begin_fill()
-    t.forward(60)
-    t.right(90)
-    t.circle(10, 180)
-    t.right(90)
-    t.forward(60)
-    t.end_fill()
-    
-    go_to(35, 125)
-    t.color("blue")
-    t.begin_fill()
-    t.circle(5)
-    t.end_fill()
-    
-def draw_body_and_dhoti():
-    # FIXED: Torso now connects head to the dhoti's waist
-    go_to(0, -40) # Start from the bottom of the head
-    t.setheading(-90)
-    t.color("black")
-    t.pensize(5) # A thicker line for the torso
-    t.forward(40) # Torso ends at the waist (y=-80)
-    t.pensize(3)
-
-    # FIXED: Dhoti now drawn neatly below the torso
-    go_to(35, -80) # Start at the right waist
-    t.color("black", "gold")
-    t.begin_fill()
-    t.goto(-35, -80) # Go to the left waist
-    t.goto(0, -130)  # Go to the bottom point of the dhoti
-    t.goto(35, -80)  # Connect back to the start
-    t.end_fill()
-
-def draw_arms_and_arrow():
-    # FIXED: Arm now connects to the body and holds the arrow
-    
-    # Right arm reaching across the body
-    go_to(20, -60) # Start from the right shoulder
-    t.setheading(180) # Point left
-    t.color("#6495ED")
-    t.forward(60) # Arm reaches position (-40, -60) to hold the arrow
-    
-    # A simple left arm for balance
-    go_to(-20, -60) # Start from left shoulder
-    t.setheading(-90)
-    t.forward(30)
-
-    # Arrow (drawn so the hand is holding it)
-    go_to(-100, -60) # Start of the arrow's tail
-    t.color("saddlebrown")
+def draw_banner_shape(width, height, corner_radius):
+    """Draws a beautiful rounded rectangle for the banner."""
+    go_to(-width / 2, height / 2 - corner_radius)
+    t.color("#A52A2A", "#FFD700") # Maroon border, Gold fill
     t.pensize(5)
-    t.setheading(0) # Point straight to the right
-    t.forward(150) # Draw the arrow shaft
-    
-    # Arrowhead
     t.begin_fill()
-    t.right(150)
-    t.forward(20)
-    t.left(120)
-    t.forward(20)
+
+    # Draw the four rounded corners
+    for _ in range(2):
+        t.circle(corner_radius, 90) # Top-right corner
+        t.forward(height - 2 * corner_radius)
+        t.circle(corner_radius, 90) # Bottom-right corner
+        t.forward(width - 2 * corner_radius)
+        
     t.end_fill()
-    
-    t.pensize(3) # Reset pensize
 
-def draw_legs():
-    # FIXED: Legs now connect to the bottom of the dhoti
-    # The dhoti ends at y=-130.
-    
-    # First leg
-    go_to(-10, -130) # Start from the left side of the dhoti's tip
-    t.color("#6495ED")
+def draw_tassels(banner_width, banner_height):
+    """Draws two cute tassels hanging from the bottom corners."""
+    t.pensize(3)
+    t.color("#DC143C") # Crimson color for tassels
+
+    # Left Tassel
+    go_to(-banner_width / 2 + 20, -banner_height / 2)
     t.setheading(-90)
-    t.forward(50)
-    
-    # Second leg
-    go_to(10, -130) # Start from the right side of the dhoti's tip
-    t.forward(50)
+    t.forward(20)
+    t.dot(20) # A simple dot for the tassel puff
 
-# --- Main Drawing Execution ---
-draw_head_and_hair()
-draw_peacock_feather()
-draw_body_and_dhoti()
-draw_arms_and_arrow()
-draw_legs()
+    # Right Tassel
+    go_to(banner_width / 2 - 20, -banner_height / 2)
+    t.setheading(-90)
+    t.forward(20)
+    t.dot(20)
 
-# Hide the turtle cursor and finish
-t.hideturtle()
+def write_mantra():
+    """Writes the Hare Krishna mantra in the center of the banner."""
+    t.color("#4B0082") # A deep Indigo color for the text
+
+    # First line of the mantra
+    go_to(0, 15) # Position for the first line
+    t.write(
+        "Hare Krishna, Hare Krishna, Krishna Krishna, Hare Hare",
+        align="center",
+        font=("Georgia", 16, "bold")
+    )
+
+    # Second line of the mantra
+    go_to(0, -25) # Position for the second line
+    t.write(
+        "Hare Rama, Hare Rama, Rama Rama, Hare Hare",
+        align="center",
+        font=("Georgia", 16, "bold")
+    )
+
+
+# --- Main Execution ---
+
+# Define banner dimensions
+BANNER_WIDTH = 500
+BANNER_HEIGHT = 120
+CORNER_RADIUS = 20
+
+# Draw all the parts
+draw_banner_shape(BANNER_WIDTH, BANNER_HEIGHT, CORNER_RADIUS)
+draw_tassels(BANNER_WIDTH, BANNER_HEIGHT)
+write_mantra()
+
+# Keep the window open until it's clicked
 screen.exitonclick()
