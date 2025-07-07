@@ -2,11 +2,11 @@ import turtle
 
 # --- Setup the Screen and Turtle ---
 screen = turtle.Screen()
-screen.title("Krishna with an Arrow")
+screen.title("Krishna with an Arrow (Corrected)")
 screen.bgcolor("#E0FFFF") # A light cyan background
 
 t = turtle.Turtle()
-t.speed(3) # Set drawing speed (1=slowest, 10=fast, 0=instant)
+t.speed(3) # Set drawing speed
 t.pensize(3) # Set the thickness of the line
 
 # A helper function to move the turtle without drawing
@@ -15,41 +15,35 @@ def go_to(x, y):
     t.goto(x, y)
     t.pendown()
 
-# --- Drawing Functions ---
+# --- Drawing Functions (Corrected) ---
 
 def draw_head_and_hair():
-    # Go to position for the head
+    # This function was mostly okay
     go_to(0, 0)
-    
-    # Draw face (a simple circle)
     t.color("#6495ED") # Cornflower Blue for Krishna's skin
     t.begin_fill()
     t.circle(40)
     t.end_fill()
     
-    # Draw hair bun
-    go_to(0, 80) # Position for the bun on top of the head
+    go_to(0, 80)
     t.color("black")
     t.begin_fill()
     t.circle(20)
     t.end_fill()
 
 def draw_peacock_feather():
-    # Position for the feather
+    # This function was also fine
     go_to(15, 95)
-    t.setheading(120) # Point the turtle upwards and left
-    
-    # Draw the main feather shape
+    t.setheading(120)
     t.color("green")
     t.begin_fill()
     t.forward(60)
     t.right(90)
-    t.circle(10, 180) # Create a rounded tip
+    t.circle(10, 180)
     t.right(90)
     t.forward(60)
     t.end_fill()
     
-    # Draw the blue "eye" of the feather
     go_to(35, 125)
     t.color("blue")
     t.begin_fill()
@@ -57,42 +51,45 @@ def draw_peacock_feather():
     t.end_fill()
     
 def draw_body_and_dhoti():
-    # Position for the body (neck)
-    go_to(0, 0)
-    t.setheading(-90) # Point down
-    
-    # Torso
-    t.color("black", "#6495ED") # Black outline, blue fill
+    # FIXED: Torso now connects head to the dhoti's waist
+    go_to(0, -40) # Start from the bottom of the head
+    t.setheading(-90)
+    t.color("black")
+    t.pensize(5) # A thicker line for the torso
+    t.forward(40) # Torso ends at the waist (y=-80)
+    t.pensize(3)
+
+    # FIXED: Dhoti now drawn neatly below the torso
+    go_to(35, -80) # Start at the right waist
+    t.color("black", "gold")
     t.begin_fill()
-    t.forward(80)
-    
-    # Dhoti (yellow garment)
-    t.color("black", "gold") # Black outline, gold fill
-    t.right(90)
-    t.forward(40)
-    t.left(120)
-    t.forward(80)
-    t.left(120)
-    t.forward(80)
-    t.left(120)
-    t.forward(40)
+    t.goto(-35, -80) # Go to the left waist
+    t.goto(0, -130)  # Go to the bottom point of the dhoti
+    t.goto(35, -80)  # Connect back to the start
     t.end_fill()
 
 def draw_arms_and_arrow():
-    # Right arm (holding the arrow)
-    go_to(-10, -30)
-    t.setheading(200) # Point arm forward
+    # FIXED: Arm now connects to the body and holds the arrow
+    
+    # Right arm reaching across the body
+    go_to(20, -60) # Start from the right shoulder
+    t.setheading(180) # Point left
     t.color("#6495ED")
-    t.circle(50, 100) # A curved arm
+    t.forward(60) # Arm reaches position (-40, -60) to hold the arrow
+    
+    # A simple left arm for balance
+    go_to(-20, -60) # Start from left shoulder
+    t.setheading(-90)
+    t.forward(30)
 
-    # The Arrow
-    go_to(-120, -60) # Start position of the arrow
-    t.color("saddlebrown") # Brown color for the arrow
-    t.setheading(0) # Point straight to the right
+    # Arrow (drawn so the hand is holding it)
+    go_to(-100, -60) # Start of the arrow's tail
+    t.color("saddlebrown")
     t.pensize(5)
+    t.setheading(0) # Point straight to the right
     t.forward(150) # Draw the arrow shaft
     
-    # Arrowhead (a simple triangle)
+    # Arrowhead
     t.begin_fill()
     t.right(150)
     t.forward(20)
@@ -103,14 +100,17 @@ def draw_arms_and_arrow():
     t.pensize(3) # Reset pensize
 
 def draw_legs():
+    # FIXED: Legs now connect to the bottom of the dhoti
+    # The dhoti ends at y=-130.
+    
     # First leg
-    go_to(-20, -135)
+    go_to(-10, -130) # Start from the left side of the dhoti's tip
     t.color("#6495ED")
     t.setheading(-90)
     t.forward(50)
     
     # Second leg
-    go_to(20, -135)
+    go_to(10, -130) # Start from the right side of the dhoti's tip
     t.forward(50)
 
 # --- Main Drawing Execution ---
@@ -122,4 +122,4 @@ draw_legs()
 
 # Hide the turtle cursor and finish
 t.hideturtle()
-screen.exitonclick() # Click on the screen to close the window
+screen.exitonclick()
